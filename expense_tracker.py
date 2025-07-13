@@ -5,7 +5,8 @@ def show_menu(): # This function shows the menu of the expense tracker
     print("\n--- Expense Tracker Menu ---")
     print("1. Add Expense")
     print("2. View All Expenses")
-    print("3. Exit")
+    print("3. Delete Expense")  #skipped for now
+    print("4. Exit")
 
 def validate_date(date_str): # This function validates the date
     try:
@@ -87,13 +88,17 @@ def view_expenses(): # This function views all the expenses
 
 while True: # main lopp of the program
     show_menu()
-    choice = input("Choose an option (1-3): ").strip() # asks for the choice of the user as 1,2 or 3
+    choice = input("Choose an option (1-4): ").strip() # asks for the choice of the user as 1,2,3 or 4
 
     if choice == '1': # adds a new expense
         add_expense()
     elif choice == '2': # views all the expenses
         view_expenses()
-    elif choice == '3': #exits the program
+    elif choice == '3':
+        # delete_expense()  # Temporarily paused
+        print("🚧 Delete function is currently disabled for now.")
+        pass  # Does nothing, just continues
+    elif choice == '4':
         print("👋 Exiting the tracker. Goodbye!")
         break
     else:
