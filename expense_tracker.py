@@ -86,6 +86,10 @@ def view_expenses(): # This function views all the expenses
     except Exception as e: # if there is an error, it prints an error message
         print(f"❌ Error reading expenses: {e}")
 
+def delete_expense(): # This function deletes an expense
+    pass # skipped for now
+
+
 while True: # main lopp of the program
     show_menu()
     choice = input("Choose an option (1-4): ").strip() # asks for the choice of the user as 1,2,3 or 4
