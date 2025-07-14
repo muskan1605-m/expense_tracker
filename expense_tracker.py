@@ -1,6 +1,7 @@
 import csv
 from datetime import datetime
 
+
 def show_menu(): # This function shows the menu of the expense tracker
     print("\n--- Expense Tracker Menu ---")
     print("1. Add Expense")
@@ -77,7 +78,7 @@ def view_expenses(): # This function views all the expenses
             print(f"{'Date':<12} {'Category':<15} {'Description':<25} {'Amount':<10}") #defines the columns of the expenses
             print("-" * 65)
             
-            for row in rows[1:]:  # prints the expenses after the header
+            for i, row in enumerate(rows[1:], 1):  # prints the expenses after the header
                 if len(row) >= 4:
                     print(f"{row[0]:<12} {row[1]:<15} {row[2]:<25} ${row[3]:<10}") # prints the expenses in a neat table format
 
@@ -87,7 +88,56 @@ def view_expenses(): # This function views all the expenses
         print(f"❌ Error reading expenses: {e}")
 
 def delete_expense(): # This function deletes an expense
-    pass # skipped for now
+    try:
+        # First, show all expenses so user can see what to delete
+        with open("expenses.csv", "r") as file:
+            reader= csv.reader(file)
+            rows= list(reader)
+
+            if len(rows) <= 1: # Only header or empty file
+                print("\n No expenses to delete.")
+                return
+
+            print("\n--- Current Expeses ---\n")
+            print(f"{'Index':<6} {'Date':<12} {'Category':<15} {'Description':<25} {'Amount':<10}")
+            print("-"* 75)
+
+            for i, row in enumerate([r for r in rows[1:] if any(r)], 1): #start indexing from 1
+                if len(row) >= 4:
+                    print(f"{i:<6} {row[0]:<12} {row[1]:<15} {row[2]:<25} {row[3]:<10}")
+
+        # Get user input for which row to delete
+        try:
+            choice= int(input("\n Enter the index number of expense to delete:  "))
+            if choice <1 or choice >= len(rows):
+                print("Invalid index number.")
+                return
+        except ValueError:
+                print("❌ Please enter a valid number.")
+                return
+
+        # Confirm deletion
+        expense_to_delete = rows[choice]
+        print(f"/n You are about to delete: {expense_to_delete[1]} - {expense_to_delete[2]} (${expense_to_delete[3]})")
+        confirm= input("Are you sure? (YES/NO): ").upper().strip()
+
+        if confirm != 'YES':
+            print("❌Deletion cancelled.")
+            return
+        # Remove the selected row
+        rows.pop(choice)
+
+        # Write back to file
+        with open("expenses.csv", "w", newline='') as file:
+            writer= csv.writer(file)
+            writer.writerows(rows)
+
+        print("✅ Expense deleted successfully!")
+
+    except FileNotFoundError:
+        print("❌ Expenses file not found.")
+    except Exception as e:
+        print(f"❌ Error deleting expense: {e}")
 
 
 while True: # main lopp of the program
@@ -99,15 +149,13 @@ while True: # main lopp of the program
     elif choice == '2': # views all the expenses
         view_expenses()
     elif choice == '3':
-        # delete_expense()  # Temporarily paused
-        print("🚧 Delete function is currently disabled for now.")
+        delete_expense() 
         pass  # Does nothing, just continues
     elif choice == '4':
         print("👋 Exiting the tracker. Goodbye!")
         break
     else:
-        print("❌ Invalid choice. Please try again.") # if the choice is not 1,2 or 3, it prints an error message
-
+        print("❌ Invalid choice. Please try again.") # if the choice is not 1,2,3 or 4, it prints an error message
 
 
 
