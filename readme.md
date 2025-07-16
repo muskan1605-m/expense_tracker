@@ -1,6 +1,6 @@
 # 💸 Expense Tracker (Mini Project)
 
-A simple command-line based Expense Tracker built in Python that allows you to add and view your daily expenses. This project is great for beginners looking to practice file handling and basic Python functions.
+A simple Expense Tracker built in Python that allows you to add and view your daily expenses. This project is great for beginners looking to practice file handling and basic Python functions.
 
 ---
 
